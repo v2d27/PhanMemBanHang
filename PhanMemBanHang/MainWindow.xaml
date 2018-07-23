@@ -1,0 +1,21 @@
+﻿<Window x:Class="PhanMemBanHang.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhanMemBanHang"
+        mc:Ignorable="d"
+        Title="Phần Mềm Quản Lý Bán Hàng 07.2018 - Thiết kế bởi Vũ Văn Đức" Height="600" Width="1200">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Margin="0, 5, 5, 0">
+                <TextBlock Uid="Tab1" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="DimGray" FontWeight="Bold" Width="150">NHẬP DỮ LIỆU</TextBlock>
+                <TextBlock Uid="Tab2" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="DimGray" FontWeight="Bold" Width="150">ĐIỀU CHỈNH GIÁ</TextBlock>
+                <TextBlock x:Name="TabActive" Uid="Tab3" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="White" FontWeight="Bold" Width="150" Background="Green">QUẢN LÝ BÁN HÀNG</TextBlock>
+                <TextBlock Uid="Tab4" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="DimGray" FontWeight="Bold" Width="150">THỐNG KÊ</TextBlock>
+            </StackPanel>
+            <Grid Background="Green" Height="3" Margin="0, -1, 0, 0"></Grid>
+        </StackPanel>
+        <Frame x:Name="MainFrame" Margin="0, 40, 0, 0" Focusable="False" Loaded="MainFrameLoaded" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

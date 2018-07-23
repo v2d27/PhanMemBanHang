@@ -1,0 +1,89 @@
+﻿<Page x:Name="page" x:Class="PhanMemBanHang.BarcodeScanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PhanMemBanHang"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="BarcodeScanPage">
+    <Page.Resources>
+        <Storyboard x:Key="BarcodeScanPage_Storyboard">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="page">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0,50,50,0">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut" Power="4"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseOut" Power="4"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="page">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="stackPanel">
+                <EasingThicknessKeyFrame KeyTime="0" Value="0,100,0,0">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+                <EasingThicknessKeyFrame KeyTime="0:0:0.6" Value="0">
+                    <EasingThicknessKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseOut"/>
+                    </EasingThicknessKeyFrame.EasingFunction>
+                </EasingThicknessKeyFrame>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource BarcodeScanPage_Storyboard}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF9F59D" Offset="0"/>
+            <GradientStop Color="#FFFFF751" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Background>
+
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top">
+            <TextBlock FontSize="24" FontWeight="Bold" Foreground="#FF0252FF">NHẬP DỮ LIỆU HỆ THỐNG</TextBlock>
+            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FF818181" HorizontalAlignment="Center">Quét mã vạch - Barcode Scanner</TextBlock>
+        </StackPanel>
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 20" Width="650">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="36" Margin="0, 5">
+                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140">Mã vạch (*)</TextBlock>
+                    <TextBox x:Name="MaVach" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown" MouseDown="InputMaVach_MouseDown"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="36" Margin="0, 5">
+                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140">Tên sản phẩm (*)</TextBlock>
+                    <TextBox x:Name="TenSanPham" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="36" Margin="0, 5">
+                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140">Giá tiền (*)</TextBlock>
+                    <TextBox x:Name="GiaTien" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown"/>
+                </StackPanel>
+
+                <StackPanel x:Name="stackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Panel.ZIndex="100">
+                    <Grid Margin="5" Width="90" Height="30" Background="#FFC9831F" HorizontalAlignment="Right" Cursor="Hand" MouseUp="Refresh_MouseUp">
+                        <TextBlock FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Làm mới</TextBlock>
+                    </Grid>
+                    <Grid x:Name="Save" Margin="5, 0, 50, 0" Width="90" Height="30" Background="#FF0FBF1F" HorizontalAlignment="Right" Cursor="Hand" KeyDown="Save_KeyDown" MouseUp="Save_MouseUp">
+                        <TextBlock FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Lưu</TextBlock>
+                    </Grid>
+                </StackPanel>
+
+                <TextBlock x:Name="Message" FontSize="18" Margin="40, -35 0, 0" HorizontalAlignment="Left"></TextBlock>
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+</Page>
