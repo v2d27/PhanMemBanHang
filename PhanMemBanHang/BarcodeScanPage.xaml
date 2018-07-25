@@ -80,7 +80,7 @@
                     </Grid>
                 </StackPanel>
 
-                <TextBlock x:Name="Message" FontSize="18" Margin="40, -35 0, 0" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock x:Name="Message" FontSize="18" Margin="5, -35 0, 0" HorizontalAlignment="Left"></TextBlock>
             </StackPanel>
 
         </Border>

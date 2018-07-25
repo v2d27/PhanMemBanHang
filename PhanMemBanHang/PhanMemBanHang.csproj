@@ -84,6 +84,9 @@
     <Compile Include="BarcodeScanPage.xaml.cs">
       <DependentUpon>BarcodeScanPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AutoCompleteComboBox.xaml.cs">
+      <DependentUpon>AutoCompleteComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NhapDuLieu.xaml.cs">
       <DependentUpon>NhapDuLieu.xaml</DependentUpon>
     </Compile>
@@ -97,6 +100,10 @@
       <DependentUpon>WindowPrintPage.xaml</DependentUpon>
     </Compile>
     <Page Include="BarcodeScanPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AutoCompleteComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,7 +52,7 @@ namespace PhanMemBanHang
             if (indexexist >= 0)
             {
                 if(MessageBox.Show("Mã vạch của sản phẩm này đã tồn tại. Bạn có muốn cập nhật giá và tên sản phẩm không?",
-                    "Quét mã vạch", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                    "Quét mã vạch", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 {
                     Message.Text = "> Đang cập nhật...";
                     Message.Foreground = Brushes.Gray;
@@ -109,6 +109,11 @@ namespace PhanMemBanHang
                         {
                             TenSanPham.Text = DataExcel.Rows[index][1].ToString();
                             GiaTien.Text = DataExcel.Rows[index][2].ToString();
+                        }
+                        else
+                        {
+                            TenSanPham.Text = "";
+                            GiaTien.Text = "";
                         }
 
                         TenSanPham.Focus();

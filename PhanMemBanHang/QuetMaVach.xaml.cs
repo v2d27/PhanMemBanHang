@@ -24,7 +24,7 @@ namespace PhanMemBanHang
     /// </summary>
     public partial class QuetMaVach : Page
     {
-        //All variable use for printing
+        #region All variable use for printing
         private static string[] danhsachhang = { "success! ok", "May be" };
         public string[] DanhSachHang
         {
@@ -67,7 +67,8 @@ namespace PhanMemBanHang
             get { return __4; }
             set { __4 = value; }
         }
-        //Variable used in local class
+        #endregion
+        #region Variable used in local class
         public DataTable DataExcel = new DataTable();
         public class Data
         {
@@ -80,6 +81,21 @@ namespace PhanMemBanHang
         }
         private bool IsExporting = false;
         public double TONGSOTIEN = 0;
+        #endregion
+        #region AutoCompleteComboBox Properties
+        /// <summary>
+        /// Gets or sets the country list.
+        /// </summary>
+        /// <value>The country list.</value>
+        public List<string> CountryList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the selected country.
+        /// </summary>
+        /// <value>The selected country.</value>
+        public string SelectedCountry { get; set; }
+
+        #endregion
 
         public QuetMaVach()
         {
@@ -111,6 +127,14 @@ namespace PhanMemBanHang
                     });
             }
             */
+
+            this.DataContext = this;
+
+            CountryList = new List<string>();
+            for(int i = 0; i < DataExcel.Rows.Count; i++)
+            {
+                CountryList.Add(DataExcel.Rows[i][1].ToString());
+            }
         }
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
@@ -136,6 +160,8 @@ namespace PhanMemBanHang
                     });
                     TONGSOTIEN += VND.ConvertToNumber(giatien);
                     TongTien.Text = VND.ConvertToString(TONGSOTIEN);
+
+                    dataGrid1.ScrollIntoView(dataGrid1.Items[dataGrid1.Items.Count-1]);
 
                     found = true;
                     break;
@@ -249,6 +275,7 @@ namespace PhanMemBanHang
             {
                 IsPrintPreview = false;
             }
+            //myAutoTenHang.autoTextBox.Text
 
             Window page = new WindowPrintPage();
             page.Show();
@@ -261,7 +288,7 @@ namespace PhanMemBanHang
             if (IsExporting) return;
             object item = dataGrid1.SelectedItem;
             if (item != null){
-                TenHang.Text = (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text;
+                myAutoTenHang.autoTextBox.Text = (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text;
                 SoLuong.Text = (dataGrid1.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text;
                 string giatien = (dataGrid1.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text;
                 GiaTien.Text = VND.ConvertToNumber(giatien).ToString();
@@ -281,7 +308,7 @@ namespace PhanMemBanHang
             switch (((TextBox)sender).Name)
             {
                 case "TenHang":
-                    (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = TenHang.Text;
+                    (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = myAutoTenHang.autoTextBox.Text;
                     break;
                 case "SoLuong":
                     double soluong = VND.ConvertToNumber(SoLuong.Text);
@@ -346,7 +373,7 @@ namespace PhanMemBanHang
             }
             TONGSOTIEN = 0;
 
-            TenHang.Text = "Tên mặt hàng";
+            myAutoTenHang.autoTextBox.Text = "";
             SoLuong.Text = "0";
             GiaTien.Text = "0đ";
             TongTien.Text = "0đ";
@@ -373,7 +400,7 @@ namespace PhanMemBanHang
             TONGSOTIEN -= VND.ConvertToNumber((dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text);
             TONGSOTIEN += thanhtien;
 
-            (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = TenHang.Text;
+            (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = myAutoTenHang.autoTextBox.Text;
             (dataGrid1.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text = SoLuong.Text;
             (dataGrid1.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text = VND.ConvertToString(giaban);
             (dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text = VND.ConvertToString(thanhtien);
@@ -434,10 +461,50 @@ namespace PhanMemBanHang
 
         private void BtnThem_Clicked(object sender, RoutedEventArgs e)
         {
+            double soluong = VND.ConvertToNumber(SoLuong.Text);
+            double giatien = VND.ConvertToNumber(GiaTien.Text);
+            string tenhang = myAutoTenHang.autoTextBox.Text;
+            if (tenhang == null || tenhang == "") tenhang = "";
+            dataGrid1.Items.Add(new Data
+            {
+                A = dataGrid1.Items.Count + 1,
+                B = tenhang,
+                C = soluong.ToString(),
+                D = VND.ConvertToString(giatien),
+                E = VND.ConvertToString(soluong * giatien),
+                Barcode = ""
+            });
+            dataGrid1.ScrollIntoView(dataGrid1.Items[dataGrid1.Items.Count-1]);
+        }
+
+        private void myAutoTenHang_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return; 
+            string findString = myAutoTenHang.autoTextBox.Text;
+            bool found = false;
+            for(int i = 0; i < DataExcel.Rows.Count; i++)
+            {
+                if(DataExcel.Rows[i][1].ToString() == findString) //tenhang columns
+                {
+                    SoLuong.Text = "1";
+                    GiaTien.Text = DataExcel.Rows[i][2].ToString();
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                SoLuong.Text = "1";
+                GiaTien.Text = "";
+            }
 
         }
     }
 
+
+    /// <summary>
+    /// QuetMaVach.xaml.cs
+    /// </summary>
     public static class VND
     {
         public static string ConvertToString(int Value)
