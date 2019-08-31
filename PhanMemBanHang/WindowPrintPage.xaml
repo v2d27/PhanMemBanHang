@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PhanMemBanHang"
         mc:Ignorable="d"
         Title="IN HOÁ ĐƠN" Height="600" Width="400">
-    <Grid Background="#FF2E2E2E">
+    <Grid Background="#FF2E2E2E" Name="myGridPrint">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -14,15 +14,19 @@
         <FlowDocumentScrollViewer Margin="0, 15" Width="5.8 cm" Loaded="FlowDocument_Loaded">
             <FlowDocument x:Name="flowDocument" FontSize="10" FontFamily="Calibri" Background="White" PageWidth="5.8cm" PageHeight="21cm">
                 <Paragraph LineHeight="1" TextAlignment="Center">
-                    <Run FontWeight="Bold" FontSize="14">HOÁ ĐƠN BÁN LẺ</Run>
+                    <Run FontWeight="Bold" FontSize="14">HOÁ ĐƠN BÁN HÀNG</Run>
                 </Paragraph>
                 <Paragraph LineHeight="1" TextAlignment="Center">
                     <Run FontWeight="Bold" FontSize="10">CỬA HÀNG TẠP HOÁ HOAN HƯỜNG</Run>
                 </Paragraph>
-
+                
                 <Paragraph LineHeight="1">
-                    <TextBlock FontSize="10" TextAlignment="Left">SĐT: 0945 264 278 - 0919 155 932</TextBlock>
+                    <TextBlock FontSize="10" TextAlignment="Left">SĐT bàn: <TextBlock FontSize="11">02713 645 119</TextBlock>  </TextBlock>
                 </Paragraph>
+                <Paragraph LineHeight="1">
+                    <TextBlock FontSize="10" TextAlignment="Left">SĐT: <TextBlock FontSize="11">0945 264 278</TextBlock></TextBlock>
+                </Paragraph>
+                
                 <Paragraph LineHeight="1">
                     <TextBlock FontSize="10" TextAlignment="Right" HorizontalAlignment="Right">Ngày bán: <TextBlock x:Name="datetime"></TextBlock></TextBlock>
                 </Paragraph>
@@ -91,6 +95,6 @@
             </FlowDocument>
         </FlowDocumentScrollViewer>
 
-        <Button x:Name="BtnPrint" Grid.Row="1" Click="Button_Click" Height="30" FontSize="16">IN HOÁ ĐƠN</Button>
+        <Button x:Name="BtnPrint" Grid.Row="1" Click="Button_Click" Height="35" FontSize="16" Foreground="Blue" FontWeight="Bold">IN HOÁ ĐƠN</Button>
     </Grid>
 </Window>

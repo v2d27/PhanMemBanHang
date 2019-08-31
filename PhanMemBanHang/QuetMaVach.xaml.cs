@@ -111,6 +111,9 @@ namespace PhanMemBanHang
             //Cap nhat so don hang
             CapNhatSoDonHang();
 
+            //Set barcode focus
+            barcode.Focus();
+
 
             //Test data
             /*
@@ -128,6 +131,7 @@ namespace PhanMemBanHang
             }
             */
 
+            //update data to myAutoList
             this.DataContext = this;
 
             CountryList = new List<string>();
@@ -400,12 +404,25 @@ namespace PhanMemBanHang
             TONGSOTIEN -= VND.ConvertToNumber((dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text);
             TONGSOTIEN += thanhtien;
 
-            (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = myAutoTenHang.autoTextBox.Text;
-            (dataGrid1.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text = SoLuong.Text;
-            (dataGrid1.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text = VND.ConvertToString(giaban);
-            (dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text = VND.ConvertToString(thanhtien);
+            // show message for user
+            string [] arr = new string[4];
+            arr[0] = (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text;
+            arr[1] = (dataGrid1.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text;
+            arr[2] = (dataGrid1.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text;
+            arr[3] = (dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text;
+            string[] ARR = new string[4];
+            ARR[0] = myAutoTenHang.autoTextBox.Text;
+            ARR[1] = SoLuong.Text;
+            ARR[2] = VND.ConvertToString(giaban);
+            ARR[3] = VND.ConvertToString(thanhtien);
 
-            //Update tong so tien
+            //update control
+            (dataGrid1.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = ARR[0];
+            (dataGrid1.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text = ARR[1];
+            (dataGrid1.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text = ARR[2];
+            (dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text = ARR[3];
+
+            //update tong so tien
             TongTien.Text = VND.ConvertToString(TONGSOTIEN);
 
             //update tien du
@@ -415,7 +432,12 @@ namespace PhanMemBanHang
             if (result < 0) negative = "-";
             TienDu.Text = negative + VND.ConvertToString(result);
 
-            MessageBox.Show("Đã điều chỉnh xong!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Đã điều chỉnh xong!\n\n\n" +
+                            "Tên hàng: "    + arr[0] + " => " + ARR[0] + "\n" +
+                            "Số lượng: "    + arr[1] + " => " + ARR[1] + "\n" +
+                            "Giá bán: "     + arr[2] + " => " + ARR[2] + "\n" +
+                            "Thành tiền: "  + arr[3] + " => " + ARR[3] + "\n"
+                , "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtXoa_Clicked(object sender, RoutedEventArgs e)
@@ -425,6 +447,12 @@ namespace PhanMemBanHang
             {
                 MessageBox.Show("Không có sản phẩm nào bị xoá. Vui lòng chọn một sản phẩm.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
+            int selectedIndex = dataGrid1.SelectedIndex;
+            if(selectedIndex >= dataGrid1.Items.Count - 1)
+            {
+                selectedIndex = dataGrid1.Items.Count - 2;
+                //MessageBox.Show(selectedIndex.ToString());
             }
 
             TONGSOTIEN -= VND.ConvertToNumber((dataGrid1.SelectedCells[4].Column.GetCellContent(item) as TextBlock).Text);
@@ -437,6 +465,8 @@ namespace PhanMemBanHang
             TienDu.Text = negative + VND.ConvertToString(result);
 
             dataGrid1.Items.Remove(item);
+            dataGrid1.SelectedIndex = selectedIndex;
+            
         }
 
         private void TienKhachTra_KeyUp(object sender, KeyEventArgs e)
@@ -475,6 +505,15 @@ namespace PhanMemBanHang
                 Barcode = ""
             });
             dataGrid1.ScrollIntoView(dataGrid1.Items[dataGrid1.Items.Count-1]);
+
+            //update tiendu
+            TONGSOTIEN += soluong * giatien;
+            double tientra = VND.ConvertToNumber(TienKhachTra.Text);
+            double result = tientra - TONGSOTIEN;
+            string negative = "";
+            if (result < 0) negative = "-";
+            TienDu.Text = negative + VND.ConvertToString(result);
+            TongTien.Text = VND.ConvertToString(TONGSOTIEN);
         }
 
         private void myAutoTenHang_KeyUp(object sender, KeyEventArgs e)
@@ -497,8 +536,29 @@ namespace PhanMemBanHang
                 SoLuong.Text = "1";
                 GiaTien.Text = "";
             }
-
         }
+
+        private void myAutoTenHang_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            string findString = myAutoTenHang.autoTextBox.Text;
+            bool found = false;
+            for (int i = 0; i < DataExcel.Rows.Count; i++)
+            {
+                if (DataExcel.Rows[i][1].ToString() == findString) //tenhang columns
+                {
+                    SoLuong.Text = "1";
+                    GiaTien.Text = DataExcel.Rows[i][2].ToString();
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                SoLuong.Text = "1";
+                GiaTien.Text = "";
+            }
+        }
+
     }
 
 

@@ -101,6 +101,72 @@ namespace PhanMemBanHang
             pd.PrintDocument(idocument.DocumentPaginator, "Hoá đơn bán lẻ số " + quet.DonHangSo);
             this.Close();
             MessageBox.Show("Hoá đơn đã được xuất ra máy in.\nĐơn hàng số: " + quet.DonHangSo, "In hoá đơn");
+
+
+            //Export bill to image
+            if (!Directory.Exists(@".\HoaDonDaXuat")) Directory.CreateDirectory(@".\HoaDonDaXuat");
+            string todayFolder = @".\HoaDonDaXuat\Hoa Don Ngay " + quet.NgayBan.Substring(0, 8).Replace("/", ".");
+            if (!Directory.Exists(todayFolder)) Directory.CreateDirectory(todayFolder);
+
+            string filename = todayFolder + @"\HoaDonSo" + quet.DonHangSo + "_" + quet.NgayBan.Replace(" ", "-").Replace("/", ".").Replace(":", ".") + ".jpg";
+            SaveDocumentPagesToImages(idocument, filename);
+        }
+        public void SaveDocumentPagesToImages(IDocumentPaginatorSource document, string filename)
+        {
+            if (string.IsNullOrEmpty(filename)) return;
+
+            MemoryStream[] streams = null;
+            try
+            {
+                int pageCount = document.DocumentPaginator.PageCount;
+                DocumentPage[] pages = new DocumentPage[pageCount];
+                for (int i = 0; i < pageCount; i++)
+                    pages[i] = document.DocumentPaginator.GetPage(i);
+
+                streams = new MemoryStream[pages.Count()];
+
+                for (int i = 0; i < pages.Count(); i++)
+                {
+                    DocumentPage source = pages[i];
+                    streams[i] = new MemoryStream();
+
+                    RenderTargetBitmap renderTarget =
+                       new RenderTargetBitmap((int)source.Size.Width,
+                                               (int)1500,
+                                               96, // WPF (Avalon) units are 96dpi based
+                                               96,
+                                               System.Windows.Media.PixelFormats.Default);
+
+                    renderTarget.Render(source.Visual);
+
+                    JpegBitmapEncoder encoder = new JpegBitmapEncoder();  // Choose type here ie: JpegBitmapEncoder, etc
+                    encoder.QualityLevel = 100;
+                    encoder.Frames.Add(BitmapFrame.Create(renderTarget));
+
+                    encoder.Save(streams[i]);
+
+                    FileStream file = new FileStream(filename, FileMode.CreateNew);
+                    file.Write(streams[i].GetBuffer(), 0, (int)streams[i].Length);
+                    file.Close();
+
+                    streams[i].Position = 0;
+                }
+            }
+            catch (Exception e1)
+            {
+                throw e1;
+            }
+            finally
+            {
+                if (streams != null)
+                {
+                    foreach (MemoryStream stream in streams)
+                    {
+                        stream.Close();
+                        stream.Dispose();
+                    }
+                }
+            }
         }
 
         private void FlowDocument_Loaded(object sender, RoutedEventArgs e)

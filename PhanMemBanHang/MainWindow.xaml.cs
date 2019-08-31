@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,22 +36,34 @@ namespace PhanMemBanHang
 
         private void Tab_MouseUp(object sender, MouseButtonEventArgs e)
         {
-
             TextBlock tab = (TextBlock)sender;
+            if (tab == ActiveTabID)
+            {
+                return;
+            }
+
             if (ActiveTabID == null)
             {
-                TabActive.Background = Brushes.Transparent;
-                TabActive.Foreground = Brushes.DimGray;
+                TabActive.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF2D3E50"));
+                TabActive.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFC8D9E9"));
             }
             if (ActiveTabID != null)
             {
-                ActiveTabID.Background = Brushes.Transparent;
-                ActiveTabID.Foreground = Brushes.DimGray;
+                ActiveTabID.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF2D3E50"));
+                ActiveTabID.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFC8D9E9"));
             }
 
-            tab.Background = Brushes.Green;
-            tab.Foreground = Brushes.White;
             ActiveTabID = tab;
+            ActiveTabID.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF27AE61"));
+            ActiveTabID.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFECFFEF"));
+
+            // Remove back entry
+            while (MainFrame.NavigationService.RemoveBackEntry() != null) ;
+            foreach(Process a in Process.GetProcessesByName("CefSharp.BrowserSubprocess"))
+            {
+                a.Kill();
+            }
+
             switch (tab.Uid)
             {
                 case "Tab1":
@@ -64,6 +77,12 @@ namespace PhanMemBanHang
                     break;
                 case "Tab4":
                     MainFrame.Content = new ThongKe();
+                    break;
+                case "Tab5":
+                    MainFrame.Content = new LichCupDienPage();
+                    break;
+                case "Tab6":
+                    MainFrame.Content = new ThiTruongPage();
                     break;
             }
         }
@@ -79,7 +98,7 @@ namespace PhanMemBanHang
                     return;
                 }
             }
-            tab.Background = Brushes.WhiteSmoke;
+            tab.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF27AE61"));
         }
 
         private void Tab_MouseLeave(object sender, MouseEventArgs e)
@@ -93,7 +112,7 @@ namespace PhanMemBanHang
                     return;
                 }
             }
-            tab.Background = Brushes.Transparent;
+            tab.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFC8D9E9"));
         }
     }
 }

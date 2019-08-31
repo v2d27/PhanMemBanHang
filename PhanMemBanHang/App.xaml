@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:PhanMemBanHang"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>

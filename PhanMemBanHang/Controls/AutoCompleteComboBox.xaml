@@ -17,18 +17,21 @@
                  TextAlignment="Center"
                  VerticalAlignment="Center"
                  HorizontalAlignment="Center"
-                 Foreground="#FF0025C9"/>
+                 Foreground="#FFC8D9E9"
+                 Background="#FF2A425D"/>
+                
         <ListBox x:Name="suggestionListBox"
                  SelectionChanged="suggestionListBox_SelectionChanged"
                  MouseUp="suggestionListBox_MouseUp"
-                 Background="White"
+                 Background="#FF2A425D"
+                 Foreground="#FFCBCBCB"
                  FontSize="12"
                  Visibility="Collapsed" 
                  MinWidth="250" 
                  Margin="0,-180,0,-25"
                  ScrollViewer.CanContentScroll="True"
                  Height="150"
-                 Panel.ZIndex="10000"
+                 Panel.ZIndex="10000" BorderBrush="#FFE5E8F1"
                  />
     </Canvas>
 </UserControl>

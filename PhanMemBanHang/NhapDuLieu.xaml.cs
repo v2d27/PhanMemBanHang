@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ClosedXML.Excel;
 using System.Data;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace PhanMemBanHang
 {
@@ -22,6 +24,24 @@ namespace PhanMemBanHang
         }
         DataTable DataExcel = new DataTable();
 
+        bool IsQuickSelecting = false;
+
+        #region AutoCompleteComboBox Properties
+
+        /// <summary>
+        /// Gets or sets the country list.
+        /// </summary>
+        /// <value>The country list.</value>
+        public List<string> CountryList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the selected country.
+        /// </summary>
+        /// <value>The selected country.</value>
+        public string SelectedCountry { get; set; }
+
+        #endregion
+
         public NhapDuLieu()
         {
             InitializeComponent();
@@ -29,7 +49,16 @@ namespace PhanMemBanHang
 
         private void dgDuLieu_Loaded(object sender, RoutedEventArgs e)
         {
-            QueryData_dgDuLieu(DataBaseFile); ;
+            QueryData_dgDuLieu(DataBaseFile);
+
+            //update data to myAutoList
+            this.DataContext = this;
+
+            CountryList = new List<string>();
+            for (int i = 0; i < DataExcel.Rows.Count; i++)
+            {
+                CountryList.Add(DataExcel.Rows[i][1].ToString());
+            }
         }
 
         private void QueryData_dgDuLieu(string sFile)
@@ -49,24 +78,25 @@ namespace PhanMemBanHang
                     C = VND.ConvertToString(DataExcel.Rows[i][2].ToString()),
                     D = DataExcel.Rows[i][3].ToString()
                 });
+                
             }
         }
 
         private void CapNhatGia()
         {
-            object item = dgDuLieu.SelectedItem;
-            if (item == null)
+            int index = dgDuLieu.SelectedIndex;
+            if (index < 0)
             {
                 MessageBox.Show("Không tìm thấy sản phẩm nào để điều chỉnh. Vui lòng chọn một sản phẩm để điều chỉnh giá.", "Văn Đức > Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            string tenhang = TenHang.Text;
-            string giaban = GiaTien.Text;
+            string tenhang = myAutoTenHang.autoTextBox.Text;
+            string giaban = VND.ConvertToNumber(GiaTien.Text).ToString();
             string barcode = BarCode.Text;
 
             //Save to Excel file
-            int index = dgDuLieu.SelectedIndex;
+            
             if(index >= 0)
             {
                 DataExcel.Rows[index][1] = tenhang;
@@ -78,6 +108,7 @@ namespace PhanMemBanHang
                     wb.SaveAs(DataBaseFile);
                     wb.Dispose();
                 }
+                object item = dgDuLieu.SelectedItem;
 
                 (dgDuLieu.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = tenhang;
                 (dgDuLieu.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text = VND.ConvertToString(giaban);
@@ -154,7 +185,7 @@ namespace PhanMemBanHang
             return -1;
         }
 
-        private void BtnCapNhatGia_MouseUp(object sender, MouseButtonEventArgs e)
+        private void BtnCapNhatGia_Clicked(object sender, RoutedEventArgs e)
         {
             CapNhatGia();
         }
@@ -163,10 +194,6 @@ namespace PhanMemBanHang
         {
             object item = dgDuLieu.SelectedItem;
             if (item == null) return;
-
-            (dgDuLieu.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text = TenHang.Text;
-            (dgDuLieu.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text = VND.ConvertToString(GiaTien.Text);
-            (dgDuLieu.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text = BarCode.Text;
 
             if(e.Key == Key.Enter)
             {
@@ -177,11 +204,72 @@ namespace PhanMemBanHang
 
         private void dgDuLieu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (IsQuickSelecting) return;
             object item = dgDuLieu.SelectedItem;
             if (item == null) return;
-            TenHang.Text = (dgDuLieu.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text;
+            myAutoTenHang.autoTextBox.Text = (dgDuLieu.SelectedCells[1].Column.GetCellContent(item) as TextBlock).Text;
             GiaTien.Text = VND.ConvertToString((dgDuLieu.SelectedCells[2].Column.GetCellContent(item) as TextBlock).Text);
             BarCode.Text = (dgDuLieu.SelectedCells[3].Column.GetCellContent(item) as TextBlock).Text;
+        }
+
+        private void myAutoTenHang_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter) return;
+            IsQuickSelecting = true;
+            string findString = myAutoTenHang.autoTextBox.Text;
+            bool found = false;
+            for (int i = 0; i < DataExcel.Rows.Count; i++)
+            {
+                if (DataExcel.Rows[i][1].ToString() == findString) //tenhang columns
+                {
+                    GiaTien.Text = VND.ConvertToString(DataExcel.Rows[i][2].ToString());
+                    BarCode.Text = DataExcel.Rows[i][3].ToString();
+                    found = true;
+
+                    dgDuLieu.ScrollIntoView(dgDuLieu.Items[i]);
+                    dgDuLieu.SelectedIndex = i;
+
+                    break;
+                }
+            }
+            if (!found)
+            {
+                GiaTien.Text = "";
+                BarCode.Text = "";
+            }
+            IsQuickSelecting = false;
+        }
+
+        private void myAutoTenHang_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            IsQuickSelecting = true;
+            string findString = myAutoTenHang.autoTextBox.Text;
+            bool found = false;
+            for (int i = 0; i < DataExcel.Rows.Count; i++)
+            {
+                if (DataExcel.Rows[i][1].ToString() == findString) //tenhang columns
+                {
+                    GiaTien.Text = VND.ConvertToString(DataExcel.Rows[i][2].ToString());
+                    BarCode.Text = DataExcel.Rows[i][3].ToString();
+                    found = true;
+
+                    dgDuLieu.ScrollIntoView(dgDuLieu.Items[i]);
+                    dgDuLieu.SelectedIndex = i;
+
+                    break;
+                }
+            }
+            if (!found)
+            {
+                GiaTien.Text = "";
+                BarCode.Text = "";
+            }
+            IsQuickSelecting = false;
+        }
+
+        private void GiaTien_LostFocus(object sender, RoutedEventArgs e)
+        {
+            GiaTien.Text = VND.ConvertToString(GiaTien.Text);
         }
     }
 }

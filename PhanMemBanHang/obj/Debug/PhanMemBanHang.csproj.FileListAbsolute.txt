@@ -36,4 +36,9 @@ D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBan
 D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\PhanMemBanHang.csproj.GenerateResource.Cache
 D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\PhanMemBanHang.exe
 D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\PhanMemBanHang.pdb
-D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\PhanMemBanHang.csprojResolveAssemblyReference.cache
+D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\Controls\AutoCompleteComboBox.g.cs
+D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\Controls\AutoCompleteComboBox.baml
+D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\GeneratedInternalTypeHelper.g.cs
+d:\my documents (original)\visual studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\PhanMemBanHang.csprojResolveAssemblyReference.cache
+D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\LichCupDienPage.g.cs
+D:\My documents (original)\Visual Studio 2015\Projects\PhanMemBanHang\PhanMemBanHang\obj\Debug\LichCupDienPage.baml

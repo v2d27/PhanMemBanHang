@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace PhanMemBanHang
 {
@@ -73,6 +74,25 @@ namespace PhanMemBanHang
         public SeriesCollection SeriesCollection { get; set; }
         public string[] Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
+
+        private void HoaDonLocation_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!Directory.Exists(@".\HoaDonDaXuat"))
+            {
+                Directory.CreateDirectory(@".\HoaDonDaXuat");
+            }
+            Process.Start("explorer.exe", @".\HoaDonDaXuat");
+        }
+
+        private void HoaDonHomNay_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string s = @".\HoaDonDaXuat\Hoa Don Ngay " + DateTime.Now.ToString("dd.MM.yy");
+            if (!Directory.Exists(s))
+            {
+                Directory.CreateDirectory(s);
+            }
+            Process.Start("explorer.exe", s);
+        }
     }
 
     public class Statistics

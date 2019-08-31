@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("cash.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sources/sss9w.png")]
 
 

@@ -48,7 +48,12 @@ namespace PhanMemBanHang
 
         private void SaveBarcode()
         {
-            int indexexist = IsBarcodeExist(MaVach.Text);
+            int indexexist = -1;
+            if (MaVach.Text != "")
+            {
+                indexexist = IsBarcodeExist(MaVach.Text);
+            }
+            
             if (indexexist >= 0)
             {
                 if(MessageBox.Show("Mã vạch của sản phẩm này đã tồn tại. Bạn có muốn cập nhật giá và tên sản phẩm không?",

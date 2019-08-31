@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PhanMemBanHang"
+      xmlns:controls="clr-namespace:PhanMemBanHang.Controls"
       
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
@@ -36,6 +37,85 @@
             </ThicknessAnimationUsingKeyFrames>
 
         </Storyboard>
+
+
+
+        <Style x:Key="MyFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <Grid Margin="3 2">
+                            <Rectangle Name="r1" StrokeThickness="1" Stroke="Black" StrokeDashArray="2 2"/>
+                            <Border Name="border" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}"  CornerRadius="2" BorderThickness="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ShadowStyle">
+            <Setter Property="Control.Foreground" Value="LightGray" />
+        </Style>
+
+        <Style x:Key="InformButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14px"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        			BorderThickness="1"
+        			Padding="4,2" 
+        			BorderBrush="DarkGray" 
+        			CornerRadius="3" 
+        			Background="{TemplateBinding Background}">
+                            <Grid >
+                                <ContentPresenter HorizontalAlignment="Center" 
+        	                        VerticalAlignment="Center" Name="contentShadow" 
+        				Style="{StaticResource ShadowStyle}">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform X="1.0" Y="1.0" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF4788c8" />
+                                <Setter Property="Background" Value="#4C4788C8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#994788C8" />
+                                <Setter TargetName="content" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Page.Resources>
     <Page.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
@@ -43,11 +123,11 @@
         </EventTrigger>
     </Page.Triggers>
 
-    <Grid HorizontalAlignment="Center">
+    <Grid HorizontalAlignment="Center" Background="#FF182434">
         <StackPanel x:Name="stackPanel" Margin="0, 5, 0, 0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" >
-            <TextBlock FontSize="24" Foreground="Blue" TextAlignment="Center" FontWeight="Bold">ĐIỀU CHỈNH GIÁ BÁN</TextBlock>
+            <TextBlock FontSize="24" Foreground="#FF0252FF" TextAlignment="Center" FontWeight="Bold">ĐIỀU CHỈNH GIÁ BÁN</TextBlock>
         </StackPanel>
-        <DataGrid x:Name="dgDuLieu" CanUserAddRows="True" Margin="0, 40, 0, 50" FontSize="16" SelectionMode="Single" ScrollViewer.CanContentScroll="True" Loaded="dgDuLieu_Loaded" SelectionChanged="dgDuLieu_SelectionChanged">
+        <DataGrid x:Name="dgDuLieu" Margin="0, 40, 0, 50" FontSize="16" SelectionMode="Single" ScrollViewer.CanContentScroll="True" Loaded="dgDuLieu_Loaded" SelectionChanged="dgDuLieu_SelectionChanged" SelectionUnit="FullRow" HeadersVisibility="Column">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="STT"        Binding="{Binding A}" IsReadOnly="True" Width="50" />
                 <DataGridTextColumn Header="Tên hàng"   Binding="{Binding B}" IsReadOnly="True" Width="200*" />
@@ -59,26 +139,31 @@
         <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" Height="50">
                 <StackPanel Orientation="Horizontal" Height="40">
-                    <TextBlock VerticalAlignment="Center" Margin="5, 5, 5, 0" FontWeight="Bold" FontSize="12" >TÊN HÀNG</TextBlock>
-                    <TextBox x:Name="TenHang" KeyUp="TenHang_KeyUp" Width="250" TextAlignment="Center" Padding="0, 5" FontSize="16" VerticalAlignment="Center" Background="White" BorderBrush="#FFBBBBBB" Foreground="#FF1CCB00">Tên mặt hàng</TextBox>
+                    <TextBlock VerticalAlignment="Center" Margin="5, 5, 5, 0" FontWeight="Bold" FontSize="12" Foreground="#FFC8D9E9" >TÊN HÀNG</TextBlock>
+                    <!--TextBox x:Name="TenHang" KeyUp="TenHang_KeyUp" Width="250" TextAlignment="Center" Padding="0, 5" FontSize="16" VerticalAlignment="Center" Background="White" BorderBrush="#FFBBBBBB" Foreground="#FF1CCB00">Tên mặt hàng</-->
+                    <controls:AutoCompleteComboBox x:Name="myAutoTenHang" SelectedValue="{Binding Path=SelectedCountry}" ItemsSource="{Binding Path=CountryList}" Background="#FFB44848" Width="250" Panel.ZIndex="10000" Margin="0, 5" KeyUp="myAutoTenHang_KeyUp" MouseUp="myAutoTenHang_MouseUp" BorderBrush="#FF0A65C7"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Height="40">
-                    <TextBlock VerticalAlignment="Center" Margin="5, 5, 5, 0" FontWeight="Bold" FontSize="12" >GIÁ TIỀN</TextBlock>
-                    <TextBox x:Name="GiaTien" KeyUp="TenHang_KeyUp" Width="100" TextAlignment="Center" Padding="0, 5" FontSize="16" VerticalAlignment="Center" Background="White" BorderBrush="#FFBBBBBB" Foreground="Red">0đ</TextBox>
+                    <TextBlock VerticalAlignment="Center" Margin="5, 5, 5, 0" FontWeight="Bold" FontSize="12" Foreground="#FFC8D9E9" >GIÁ TIỀN</TextBlock>
+                    <TextBox x:Name="GiaTien" KeyUp="TenHang_KeyUp" LostFocus="GiaTien_LostFocus" Width="100" TextAlignment="Center" Padding="0, 5" FontSize="16" VerticalAlignment="Center" Background="#FF2A425D" BorderBrush="#FF0A65C7" Foreground="#FF16F000">0đ</TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Height="40">
-                    <TextBlock VerticalAlignment="Center" Margin="5, 5, 5, 0" FontWeight="Bold" FontSize="12" >BARCODE</TextBlock>
-                    <TextBox x:Name="BarCode" KeyUp="TenHang_KeyUp" Width="250" Padding="0, 5" FontSize="16" VerticalAlignment="Center" Background="White" BorderBrush="#FFBBBBBB" Foreground="#FF7608E4">Barcode</TextBox>
+                    <TextBlock VerticalAlignment="Center" Margin="5, 5, 5, 0" FontWeight="Bold" FontSize="12" Foreground="#FFC8D9E9" >BARCODE</TextBlock>
+                    <TextBox x:Name="BarCode" KeyUp="TenHang_KeyUp" Width="250" Padding="0, 5" FontSize="16" VerticalAlignment="Center" Background="#FF2A425D" BorderBrush="#FF0A65C7" Foreground="#FFC8D9E9">Barcode</TextBox>
                 </StackPanel>
-                <Grid MouseUp="BtnCapNhatGia_MouseUp" Cursor="Hand" Margin="5" Background="#FF2A9B1F">
-                    <TextBlock FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Padding="30, 0">LƯU</TextBlock>
-                    <Grid.ToolTip>
+                <Button Click="BtnCapNhatGia_Clicked" Cursor="Hand" Margin="5,8" Style="{StaticResource InformButton}" Focusable="False" Background="#FF2D3E50">
+                    <StackPanel Orientation="Horizontal" Margin="5, 0">
+                        <Image Source=".\sources\save.png" Width="25" Height="25" Margin="0"></Image>
+                        <TextBlock FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10, 0" FontWeight="Bold" Foreground="#FFC8D9E9">LƯU</TextBlock>
+                    </StackPanel>
+                    
+                    <Button.ToolTip>
                         <StackPanel Orientation="Vertical">
                             <TextBlock FontSize="14">Lưu vào cơ sở dữ liệu của phần mềm.</TextBlock>
-                            <TextBlock FontSize="14">Mọi thay đổi sẽ không được lưu vào hệ thống nếu không click.</TextBlock>
+                            <TextBlock FontSize="14">Mọi thay đổi sẽ không được lưu vào hệ thống nếu không "Lưu".</TextBlock>
                         </StackPanel>
-                    </Grid.ToolTip>
-                </Grid>
+                    </Button.ToolTip>
+                </Button>
             </StackPanel>
         </Grid>
 

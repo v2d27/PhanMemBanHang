@@ -5,17 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhanMemBanHang"
         mc:Ignorable="d"
-        Title="Phần Mềm Quản Lý Bán Hàng 07.2018 - Thiết kế bởi Vũ Văn Đức" Height="600" Width="1200">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Margin="0, 5, 5, 0">
-                <TextBlock Uid="Tab1" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="DimGray" FontWeight="Bold" Width="150">NHẬP DỮ LIỆU</TextBlock>
-                <TextBlock Uid="Tab2" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="DimGray" FontWeight="Bold" Width="150">ĐIỀU CHỈNH GIÁ</TextBlock>
-                <TextBlock x:Name="TabActive" Uid="Tab3" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="White" FontWeight="Bold" Width="150" Background="Green">QUẢN LÝ BÁN HÀNG</TextBlock>
-                <TextBlock Uid="Tab4" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="DimGray" FontWeight="Bold" Width="150">THỐNG KÊ</TextBlock>
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Title="Phần Mềm Quản Lý Bán Hàng (released in 29.07.2019) - Thiết kế bởi Vũ Văn Đức" Height="600" Width="1200" 
+        Background="#FF182434" BorderBrush="#FFF30C0C">
+    <Grid Background="#FF182434">
+        <StackPanel Orientation="Vertical" Margin="10, 5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Uid="Tab1" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="#FFC8D9E9" FontWeight="Bold" Width="150" Margin="3, 0" Background="#FF2D3E50" Cursor="Hand">NHẬP DỮ LIỆU</TextBlock>
+                <TextBlock Uid="Tab2" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="#FFC8D9E9" FontWeight="Bold" Width="150" Margin="3, 0" Background="#FF2D3E50" Cursor="Hand">ĐIỀU CHỈNH GIÁ</TextBlock>
+                <TextBlock x:Name="TabActive" Uid="Tab3" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="#FFECFFEF" FontWeight="Bold" Margin="3, 0" Width="150" Background="#FF27AE61" Cursor="Hand">QUẢN LÝ BÁN HÀNG</TextBlock>
+                <TextBlock Uid="Tab4" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="#FFC8D9E9" FontWeight="Bold" Width="150" Margin="3, 0" Background="#FF2D3E50" Cursor="Hand">THỐNG KÊ</TextBlock>
+                <TextBlock Uid="Tab5" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="#FFC8D9E9" FontWeight="Bold" Width="150" Margin="3, 0" Background="#FF2D3E50" Cursor="Hand">LỊCH CÚP ĐIỆN</TextBlock>
+                <TextBlock Uid="Tab6" MouseUp="Tab_MouseUp" MouseEnter="Tab_MouseEnter" MouseLeave="Tab_MouseLeave" FontSize="14" TextAlignment="Center" Padding="0, 7" Foreground="#FFC8D9E9" FontWeight="Bold" Width="150" Margin="3, 0" Background="#FF2D3E50" Cursor="Hand">THỊ TRƯỜNG</TextBlock>
             </StackPanel>
-            <Grid Background="Green" Height="3" Margin="0, -1, 0, 0"></Grid>
+            <Grid Background="#FF27ae61" Height="3" Margin="0, -1, 0, 0"></Grid>
         </StackPanel>
-        <Frame x:Name="MainFrame" Margin="0, 40, 0, 0" Focusable="False" Loaded="MainFrameLoaded" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="MainFrame" Margin="10, 40, 10, 5" Focusable="False" Loaded="MainFrameLoaded" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

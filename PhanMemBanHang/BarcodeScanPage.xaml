@@ -45,30 +45,51 @@
         </EventTrigger>
     </Page.Triggers>
     <Page.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FFF9F59D" Offset="0"/>
-            <GradientStop Color="#FFFFF751" Offset="1"/>
-        </LinearGradientBrush>
+        <RadialGradientBrush>
+            <GradientStop Color="#FF2B405D" Offset="0"/>
+            <GradientStop Color="#FF1A2E49" Offset="1"/>
+            <GradientStop Color="#FF1B37A2" Offset="0"/>
+            <GradientStop Color="#FF253DA6" Offset="0"/>
+            <GradientStop Color="#FF213551" Offset="0.724"/>
+            <GradientStop Color="#FF2A508F" Offset="0"/>
+            <GradientStop Color="#FF222F81" Offset="0"/>
+            <GradientStop Color="#FF25348F" Offset="0"/>
+            <GradientStop Color="#FF213A5D" Offset="0"/>
+        </RadialGradientBrush>
     </Page.Background>
 
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="118*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="13*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Margin="114.111,5,80.111,0" VerticalAlignment="Top" Grid.Column="1" Height="125.863" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <TextBlock FontSize="24" FontWeight="Bold" Foreground="#FF0252FF">NHẬP DỮ LIỆU HỆ THỐNG</TextBlock>
-            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FF818181" HorizontalAlignment="Center">Quét mã vạch - Barcode Scanner</TextBlock>
+            <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FFC8D9E9" HorizontalAlignment="Center">Quét Mã Vạch</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                <Image Source=".\sources\sSs9w.png" Height="60"/>
+                <TextBlock FontSize="18" FontWeight="Bold" Foreground="#FFC8D9E9" HorizontalAlignment="Center" VerticalAlignment="Center">- Barcode Scanner</TextBlock>
+            </StackPanel>
+
         </StackPanel>
-        <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 20" Width="650">
+        <Border Padding="50, 10" Margin="-49.647,170,-83.647,41.5" Grid.Column="1" Panel.ZIndex="1000" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="36" Margin="0, 5">
-                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140">Mã vạch (*)</TextBlock>
-                    <TextBox x:Name="MaVach" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown" MouseDown="InputMaVach_MouseDown"/>
+                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140" Foreground="#FFC8D9E9">Mã vạch (*)</TextBlock>
+                    <TextBox x:Name="MaVach" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown" MouseDown="InputMaVach_MouseDown" Background="#FF2A425D" BorderBrush="#FF0A65C7" Foreground="#FFC8D9E9"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="36" Margin="0, 5">
-                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140">Tên sản phẩm (*)</TextBlock>
-                    <TextBox x:Name="TenSanPham" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown"/>
+                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140" Foreground="#FFC8D9E9">Tên sản phẩm (*)</TextBlock>
+                    <TextBox x:Name="TenSanPham" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown" Background="#FF2A425D" BorderBrush="#FF0A65C7" Foreground="#FFC8D9E9"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Height="36" Margin="0, 5">
-                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140">Giá tiền (*)</TextBlock>
-                    <TextBox x:Name="GiaTien" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown"/>
+                    <TextBlock FontSize="18" VerticalAlignment="Center" Margin="10,3" Width="140" Foreground="#FFC8D9E9">Giá tiền (*)</TextBlock>
+                    <TextBox x:Name="GiaTien" FontSize="18" Margin="40, 0" Padding="10, 5" Width="300" KeyDown="InputMaVach_KeyDown" Background="#FF2A425D" BorderBrush="#FF0A65C7" Foreground="#FFC8D9E9"/>
                 </StackPanel>
 
                 <StackPanel x:Name="stackPanel" Orientation="Horizontal" HorizontalAlignment="Right" Panel.ZIndex="100">
@@ -80,10 +101,17 @@
                     </Grid>
                 </StackPanel>
 
-                <TextBlock x:Name="Message" FontSize="18" Margin="5, -35 0, 0" HorizontalAlignment="Left"></TextBlock>
+                <TextBlock x:Name="Message" FontSize="18" Margin="5, -35 0, 0" HorizontalAlignment="Left" Foreground="#FFC8D9E9">(*)</TextBlock>
             </StackPanel>
 
         </Border>
 
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Panel.ZIndex="0" Margin="26.031,0" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <TextBlock FontSize="14" FontWeight="Bold" Foreground="#FFC8D9E9">Một số lưu ý:</TextBlock>
+            <TextBlock FontSize="14" Foreground="#FFC8D9E9">- Nếu hàng hoá không có mã vạch thì ô mã vạch để trống.</TextBlock>
+            <TextBlock FontSize="14" Foreground="#FFC8D9E9">- Trang này có thể điều chỉnh giá sản phẩm bằng cách nhập vào ô mã vạch.</TextBlock>
+            <TextBlock FontSize="14" Foreground="#FFC8D9E9">- Sau khi ấn Lưu dữ liệu sẽ được lưu trực tiếp vào database.</TextBlock>
+        </StackPanel>
     </Grid>
 </Page>

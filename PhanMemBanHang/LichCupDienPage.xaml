@@ -1,0 +1,19 @@
+﻿<Page x:Class="PhanMemBanHang.LichCupDienPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+      xmlns:local="clr-namespace:PhanMemBanHang"
+      mc:Ignorable="d" 
+      Background="White"
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="LichCupDienPage">
+
+    <Grid>
+        <Grid>
+            <cefSharp:ChromiumWebBrowser x:Name="browser"
+            Address="https://www.cskh.evnspc.vn/DichVuTTCSKH/DichVuTTCSKHSPC?index=7" />
+        </Grid>
+    </Grid>
+</Page>
